@@ -1,0 +1,36 @@
+services:
+  ud-dssa-website-dev:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    container_name: uddsa
+    ports:
+      - "3000:3000"
+    volumes:
+      # ✅ HOT RELOAD ENABLED: Mount local source code into container
+      # Any changes you make to files locally will automatically reflect in the container
+      # Next.js dev server will detect changes and reload automatically
+      - .:/app
+      # Exclude node_modules from volume mount (use container's node_modules)
+      # This ensures dependencies installed in container are used, not local ones
+      - /app/node_modules
+      - /app/.next
+    environment:
+      # Supabase Configuration (use defaults if not set)
+      - NEXT_PUBLIC_SUPABASE_URL=${NEXT_PUBLIC_SUPABASE_URL:-}
+      - NEXT_PUBLIC_SUPABASE_ANON_KEY=${NEXT_PUBLIC_SUPABASE_ANON_KEY:-}
+      # GitHub Configuration (legacy - optional)
+      - GITHUB_REPO_OWNER=${GITHUB_REPO_OWNER:-}
+      - GITHUB_REPO_NAME=${GITHUB_REPO_NAME:-}
+      - GITHUB_TOKEN=${GITHUB_TOKEN:-}
+      # Node Environment
+      - NODE_ENV=development
+    env_file:
+      - .env.local
+    # Note: .env.local file now exists (created from env.example)
+    # Fill in your actual Supabase/GitHub credentials in .env.local
+    restart: unless-stopped
+    # Make env_file optional (won't error if file doesn't exist)
+    stdin_open: true
+    tty: true
+

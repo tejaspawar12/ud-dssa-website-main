@@ -37,12 +37,11 @@ RUN adduser --system --uid 1001 nextjs
 
 # Copy necessary files from builder
 # Standalone output structure:
-# - .next/standalone/ contains the server.js and minimal node_modules
+# - .next/standalone/ contains the server.js, minimal node_modules, and public assets
 # - .next/static/ contains static assets
-# - public/ needs to be accessible at root level
+# Note: Next.js standalone mode automatically includes public/ folder in standalone output
 COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
 COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
-COPY --from=builder --chown=nextjs:nodejs /app/public ./public
 
 USER nextjs
 

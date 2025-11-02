@@ -1,9 +1,19 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { ContactFormData } from '@/types/contact';
-import { supabase } from '@/lib/supabase';
+import { supabase, validateSupabaseConfig } from '@/lib/supabase';
 
 export async function POST(request: NextRequest) {
   try {
+    // Validate Supabase configuration at runtime
+    const configCheck = validateSupabaseConfig();
+    if (!configCheck.valid) {
+      console.error('Supabase configuration error:', configCheck.error);
+      return NextResponse.json(
+        { success: false, message: 'Server configuration error. Please contact support.' },
+        { status: 500 }
+      );
+    }
+
     const formData: ContactFormData = await request.json();
     
     // Prepare data for Supabase insertion

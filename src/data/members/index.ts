@@ -6,6 +6,7 @@
 import { Member } from '@/types/member';
 import { tejasPawar } from './tejas-pawar';
 import { testUser } from './test-user';
+import { thanos } from './thanos';
 // Add more imports here as members are added:
 // import { johnSmith } from './john-smith';
 // import { janeDoe } from './jane-doe';
@@ -15,6 +16,7 @@ import { testUser } from './test-user';
 export const members: Member[] = [
   tejasPawar,
   testUser,
+  thanos,
   // Add more members here:
   // johnSmith,
   // janeDoe,
